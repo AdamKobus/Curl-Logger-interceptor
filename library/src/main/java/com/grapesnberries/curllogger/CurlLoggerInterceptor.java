@@ -26,7 +26,8 @@ public class CurlLoggerInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        RequestPrintingTask task = RequestPrintingTask.obtain(tag, chain.request());
+        Request request = chain.request();
+        RequestPrintingTask task = RequestPrintingTask.obtain(tag, request);
         try {
             task.execute();
         } catch (Throwable throwable) {
@@ -34,7 +35,6 @@ public class CurlLoggerInterceptor implements Interceptor {
         } finally {
             task.recycle();
         }
-        Request request = chain.request();
         return chain.proceed(request);
     }
 }
