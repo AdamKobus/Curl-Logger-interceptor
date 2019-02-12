@@ -1,30 +1,24 @@
 package com.grapesnberries.curllogger;
 
-
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 /**
  * Created by mohamedzakaria on 6/7/16.
  */
-public class CurlPrinter {
-
-
+class CurlPrinter {
     /**
      * Drawing toolbox
      */
     private static final String SINGLE_DIVIDER = "────────────────────────────────────────────";
 
-    private static String sTag = "CURL";
+    private static final String DEFAULT_TAG = "CURL";
 
-    public static void print(@Nullable String tag, String url, String msg) {
-        // setting tag if not null
-        if(tag != null)
-            sTag = tag;
-
+    static void print(@Nullable final String tag, String url, String msg) {
         StringBuilder logMsg = new StringBuilder("\n");
         logMsg.append("\n");
-        logMsg.append("URL: " + url);
+        logMsg.append("URL: ").append(url);
         logMsg.append("\n");
         logMsg.append(SINGLE_DIVIDER);
         logMsg.append("\n");
@@ -33,10 +27,19 @@ public class CurlPrinter {
         logMsg.append(" \n");
         logMsg.append(SINGLE_DIVIDER);
         logMsg.append(" \n ");
-        log(logMsg.toString());
+        Log.d(obtainNonNullTag(tag), logMsg.toString());
     }
 
-    private static void log(String msg) {
-        Log.d(sTag, msg);
+    static void printError(@Nullable String tag, @NonNull Throwable t) {
+        Log.e(obtainNonNullTag(tag),
+              "Error when processing request",
+              t);
+    }
+
+    private static String obtainNonNullTag(@Nullable String tag) {
+        if (tag != null) {
+            return tag;
+        }
+        return DEFAULT_TAG;
     }
 }
