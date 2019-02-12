@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         CurlLoggerSampleApp.getGithubService().getUsers().enqueue(new Callback<List<GithubUser>>() {
             @Override
             public void onResponse(Call<List<GithubUser>> call, Response<List<GithubUser>> response) {
-                adapter = new GithubUsersAdapter(MainActivity.this, android.R.layout.simple_list_item_1, new ArrayList<GithubUser>(response.body()));
-
+                adapter = new GithubUsersAdapter(MainActivity.this, android.R.layout.simple_list_item_1,
+                                                 new ArrayList<GithubUser>(response.body()));
                 listView.setAdapter(adapter);
             }
 
